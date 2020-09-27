@@ -1,6 +1,8 @@
 <?php
 session_start();
-
+if (isset($_POST["name"])){
+  $_SESSION["user"]=$_POST["name"];
+}
 
 ?>
 
@@ -16,7 +18,7 @@ session_start();
   <meta name="description" content="">
   
   
-  <title>Home</title>
+  <title>Online Chess</title>
   <link rel="stylesheet" href="assets/tether/tether.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">

@@ -1,6 +1,7 @@
 <?php
 session_start();
 if (isset($_POST["name"])){
+  
   $_SESSION["user"]=$_POST["name"];
 }
 
@@ -18,7 +19,7 @@ if (isset($_POST["name"])){
   <meta name="description" content="">
   
   
-  <title>Online Chess</title>
+  <title>Home</title>
   <link rel="stylesheet" href="assets/tether/tether.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
@@ -35,10 +36,12 @@ if (isset($_POST["name"])){
 </head>
 <body>
 <?php
-if (isset($_SESSION["user"])){
+if (!isset($_SESSION["user"])){
 include "login.php";
 }
 else{
+echo '<a href="logout.php">Logout</a>';
+  
     include "board.php";
 }
 ?>  

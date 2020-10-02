@@ -1,8 +1,6 @@
-<?php
+<?php 
 session_start();
-if (!isset($_SESSION["user"])){
-header('Location: index.php');
-}
+
 ?>
 
 <section class="gallery1 cid-sbBRzPNBc6" id="gallery1-m">

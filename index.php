@@ -35,7 +35,7 @@ if (isset($_POST["name"])){
 </head>
 <body>
 <?php
-if (!isset($_SESSION["user"])){
+if (isset($_SESSION["user"])){
 include "login.php";
 }
 else{

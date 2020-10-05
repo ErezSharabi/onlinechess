@@ -8,7 +8,7 @@ session_start();
     <div class="container">
         <div class="mbr-section-head">
             <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
-                <strong>LOGIN <?php echo $_POST["name"]; echo $_SESSION["user"]; ?></strong>
+                <strong>LOGIN </strong>
             </h3>
             
         </div>

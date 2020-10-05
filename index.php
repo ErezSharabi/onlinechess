@@ -1,8 +1,17 @@
 <?php
 session_start();
-if (isset($_POST["name"])){
+if (isset($_POST["name"]) && isset($_POST["pw"])){
+  include "db_connect.php";
+  $sql = "SELECT * from `users` where `username`='".mysqli_real_escape_String($conn, $_POST["name"])."' AND `pw`='".mysqli_real_escape_String($conn, $_POST["pw"])."'";
   
-  $_SESSION["user"]=$_POST["name"];
+  $result = $conn->query($sql);
+  $conn->close();
+  
+  if ($result && $result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  
+  $_SESSION["user"]=$row["id"];
+}
 }
 
 ?>
@@ -36,14 +45,48 @@ if (isset($_POST["name"])){
 </head>
 <body>
 <?php
+
+
 if (!isset($_SESSION["user"])){
 include "login.php";
 }
 else{
+
 echo '<a href="logout.php">Logout</a>';
-  
-    include "board.php";
+
+if(isset($_SESSION["game"])){
+echo '<br><br><a href="changegame.php">X change game</a>';
+  include "board.php";
 }
+else{
+include "db_connect.php";
+  $sql = "SELECT * from `games` where `opp1`='".mysqli_real_escape_String($conn, $_SESSION["user"])."' OR `opp2`='".mysqli_real_escape_String($conn, $_SESSION["user"])."'";
+  $result = $conn->query($sql);
+
+  echo '<table><tr><th>opponent 1</th><th>opponent 2</th><th>game started at</th></tr><tbody>';
+  while ($row = $result->fetch_assoc()) {
+    
+    echo '<tr><td>';
+    $result_game=$conn->query('SELECT username from users where id='.$row["opp1"]);
+    $opp1= $result_game->fetch_assoc();
+    echo $opp1["username"];
+    echo '</td>';
+    echo '<td>';
+    $result_game=$conn->query('SELECT username from users where id='.$row["opp2"]);
+    $opp2= $result_game->fetch_assoc();
+    echo $opp2["username"];
+    echo '</td>';
+    echo '<td>'.$row["time"]."</td>";
+    echo '<td><a href="choosegame.php?game='.$row["id"].'">go to game</a></td>';
+    echo '</tr>';
+
+  }
+  echo '</tbody></table>';
+  $conn->close();
+
+}
+}
+
 ?>  
 
 <section style="background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; color:#aaa; font-size:12px; padding: 0; align-items: center; display: flex;"><a href="https://mobirise.site/z" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a><p style="flex: 0 0 auto; margin:0; padding-right:1rem;">Design a website - <a href="https://mobirise.site/w" style="color:#aaa;">Click here</a></p></section><script src="assets/web/assets/jquery/jquery.min.js"></script>  <script src="assets/popper/popper.min.js"></script>  <script src="assets/tether/tether.min.js"></script>  <script src="assets/bootstrap/js/bootstrap.min.js"></script>  <script src="assets/smoothscroll/smooth-scroll.js"></script>  <script src="assets/formstyler/jquery.formstyler.js"></script>  <script src="assets/formstyler/jquery.formstyler.min.js"></script>  <script src="assets/datepicker/jquery.datetimepicker.full.js"></script>  <script src="assets/theme/js/script.js"></script>  <script src="assets/formoid/formoid.min.js"></script>  
